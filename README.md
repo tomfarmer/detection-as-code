@@ -4,6 +4,25 @@ A CI/CD pipeline for network and (later) SIEM detections. Rules live in version
 control as the source of truth. On every push, CI validates them, tests them
 against known traffic, and (eventually) deploys them to a sensor.
 
+```
+detection-as-code/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── rules/
+│   ├── suricata/        ← build this first
+│   └── sigma/           ← empty seam for Splunk later
+├── tests/
+│   └── pcaps/           ← test traffic (logs/ seam added later)
+├── scripts/
+│   ├── validate.sh
+│   └── deploy.sh
+├── ai/                  ← build-time AI helpers (empty seam)
+├── README.md
+└── .gitignore
+```
+
+
 ## Status
 
 In progress. Honest current state:
