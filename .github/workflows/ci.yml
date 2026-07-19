@@ -1,0 +1,34 @@
+name: detection-ci
+
+# Run on every push and pull request touching the repo.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  suricata:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Install Suricata and scapy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y suricata python3-pip
+          pip install scapy --break-system-packages
+
+      - name: Regenerate test pcaps from source
+        # We generate fixtures from the committed generator so the traffic under
+        # test is always exactly what the script describes - reviewable in git.
+        run: python3 tests/generate_pcaps.py
+
+      - name: Validate (rules load cleanly)
+        run: bash scripts/validate.sh
+
+      - name: Test (rules fire on bad, stay quiet on benign)
+        run: bash scripts/test.sh
+
+      - name: Deploy (stub for now)
+        run: bash scripts/deploy.sh

@@ -1,0 +1,19 @@
+# Suricata runtime output
+eve.json
+*.log
+fast.log
+stats.log
+suricata.log
+/tmp/
+
+# Local suricata run dirs
+out_*/
+suri_test/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/
+.idea/

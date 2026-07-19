@@ -1,0 +1,17 @@
+# Local detection rules
+# sid range 1000000-1999999 is reserved for local/custom rules by convention.
+
+# --- SID 1000001 -------------------------------------------------------------
+# Detects a known-bad marker string in TCP payload.
+# This is a deliberately simple first rule: it exists to prove the pipeline
+# (validate -> test -> deploy) works end to end. Replace/extend with real
+# detections once the loop is green.
+alert tcp any any -> any any ( \
+    msg:"LOCAL Suspicious marker string observed in TCP payload"; \
+    flow:established; \
+    content:"EVILMARKER"; \
+    classtype:policy-violation; \
+    sid:1000001; \
+    rev:1; \
+    metadata:author tom, created 2026-07-19; \
+)
